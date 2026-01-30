@@ -1,0 +1,43 @@
+[project]
+name = "runtime"
+version = "0"
+description = "Add your description here"
+requires-python = "~=3.11.13"
+dependencies = [
+    "cuda-python>=12.6,<12.7",
+    "english-to-ipa @ git+https://github.com/mphilli/English-to-IPA",
+    "librosa",
+    "loguru",
+    "nemo_toolkit[asr]>=2.5.0",
+    "peft",
+    "sacrebleu", # Needed for NeMo SpeechLM2
+    "soundfile",
+    "transformers[torch]>=4.52.4",
+    "torch>=2.9.0",
+    "torchaudio",
+    "torchcodec",
+    "tqdm",
+    "vllm",
+]
+
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
+[tool.uv]
+required-version = ">=0.9.24"
+environments = [
+  "sys_platform == 'linux'"
+]
+no-build-package = ["vllm"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchaudio = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

@@ -1,0 +1,7 @@
+data/
+data-archive/
+
+submission/
+!submission/.gitkeep
+submission_src/
+!submission_src/.gitkeep
