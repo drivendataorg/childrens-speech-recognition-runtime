@@ -47,18 +47,23 @@ jobs:
       - id: decide
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ vars.PUBLISH_LATEST_ON_MAIN }}" != "" ]]; then
-            echo "should_publish=true" >> "$GITHUB_OUTPUT"
-            echo "should_publish_latest=true" >> "$GITHUB_OUTPUT"
-            echo "env_name=production" >> "$GITHUB_OUTPUT"
+            should_publish=true
+            should_publish_latest=true
+            env_name=production
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.publishDev }}" == "true" ]]; then
-            echo "should_publish=true" >> "$GITHUB_OUTPUT"
-            echo "should_publish_latest=false" >> "$GITHUB_OUTPUT"
-            echo "env_name=production" >> "$GITHUB_OUTPUT"
+            should_publish=true
+            should_publish_latest=false
+            env_name=production
           else
-            echo "should_publish=false" >> "$GITHUB_OUTPUT"
-            echo "should_publish_latest=false" >> "$GITHUB_OUTPUT"
-            echo "env_name=dev" >> "$GITHUB_OUTPUT"
+            should_publish=false
+            should_publish_latest=false
+            env_name=dev
           fi
+          {
+            echo "should_publish=$should_publish"
+            echo "should_publish_latest=$should_publish_latest"
+            echo "env_name=$env_name"
+          } | tee -a "$GITHUB_OUTPUT"
 
   build:
     name: Build
