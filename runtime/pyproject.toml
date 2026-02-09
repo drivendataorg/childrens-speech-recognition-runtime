@@ -10,6 +10,7 @@ dependencies = [
     "loguru",
     "nemo_toolkit[asr]>=2.5.0",
     "peft",
+    "qwen-asr",
     "sacrebleu", # Needed for NeMo SpeechLM2
     "soundfile",
     "transformers[torch]>=4.52.4",
@@ -32,6 +33,12 @@ environments = [
   "sys_platform == 'linux'"
 ]
 no-build-package = ["vllm"]
+
+# Override constraints to allow qwen-asr without breaking existing packages
+override-dependencies = [
+    "transformers>=4.57.6,<4.58",  # NeMo pins <4.54, qwen-asr needs >=4.57.6
+    "pillow>=12",                   # Prevent gradio 3.x from downgrading pillow
+]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cu126" }

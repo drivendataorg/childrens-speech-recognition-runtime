@@ -39,3 +39,10 @@ def test_parakeet_tdt():
 def test_wav2vec():
     # https://huggingface.co/facebook/wav2vec2-base-960h#usage
     from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+
+
+def test_qwen3_asr():
+    # https://huggingface.co/Qwen/Qwen3-ASR-1.7B
+    from qwen_asr.core.transformers_backend.configuration_qwen3_asr import Qwen3ASRConfig
+    from qwen_asr.core.transformers_backend.modeling_qwen3_asr import Qwen3ASRForConditionalGeneration
+    from qwen_asr.core.transformers_backend.processing_qwen3_asr import Qwen3ASRProcessor
