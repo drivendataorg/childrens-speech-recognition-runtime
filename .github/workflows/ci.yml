@@ -32,22 +32,42 @@ jobs:
         with:
           version: "0.9.24"
 
-      - name: Check lockfile
+      - name: Check if lockfile is up to date
         run: |
           just lock-check
 
+  decide:
+    name: Decide if image should be published
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.decide.outputs.should_publish }}
+      should_publish_latest: ${{ steps.decide.outputs.should_publish_latest }}
+      env_name: ${{ steps.decide.outputs.env_name }}
+    steps:
+      - id: decide
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" && "${{ vars.PUBLISH_LATEST_ON_MAIN }}" != "" ]]; then
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "should_publish_latest=true" >> "$GITHUB_OUTPUT"
+            echo "env_name=production" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.publishDev }}" == "true" ]]; then
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "should_publish_latest=false" >> "$GITHUB_OUTPUT"
+            echo "env_name=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "should_publish_latest=false" >> "$GITHUB_OUTPUT"
+            echo "env_name=dev" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build
-    needs: check-lock
+    needs: [check-lock, decide]
     runs-on:
       labels: kids-asr-ubuntu-24.04-4core
+    environment:
+      name: ${{ needs.decide.outputs.env_name }}
     env:
-      SHOULD_PUBLISH_LATEST: ${{ github.ref == 'refs/heads/main' && vars.PUBLISH_LATEST_ON_MAIN != '' }}
-      SHOULD_PUBLISH: |
-        ${{
-          github.ref == 'refs/heads/main' && vars.PUBLISH_LATEST_ON_MAIN != ''
-          || github.event_name == 'workflow_dispatch' && inputs.publishDev
-        }}
       LOGIN_SERVER: kidsasrprodacr.azurecr.io
       IMAGE_NAME: kids-asr-runtime
       SHA_TAG: ${{ github.sha }}
@@ -74,14 +94,18 @@ jobs:
         run: |
           just build \
             --tag $LOGIN_SERVER/$IMAGE_NAME:$SHA_TAG \
-            ${{ fromJson(env.SHOULD_PUBLISH_LATEST) && '--tag $LOGIN_SERVER/$IMAGE_NAME:$LATEST_TAG' || '' }}
+
+      - name: Tag as latest
+        if: ${{ needs.decide.outputs.should_publish_latest == 'true' }}
+        run: |
+          docker tag $LOGIN_SERVER/$IMAGE_NAME:$SHA_TAG $LOGIN_SERVER/$IMAGE_NAME:$LATEST_TAG
 
       - name: Check image size
         run: |
           docker image list $LOGIN_SERVER/$IMAGE_NAME --format "{{.Tag}}: {{.Size}}" | tee -a $GITHUB_STEP_SUMMARY
 
       - name: Log into Azure
-        if: ${{ fromJson(env.SHOULD_PUBLISH) }}
+        if: ${{ needs.decide.outputs.should_publish == 'true' }}
         uses: azure/login@v1
         with:
           client-id: ${{secrets.AZURE_CLIENT_ID}}
@@ -89,11 +113,11 @@ jobs:
           subscription-id: ${{secrets.AZURE_SUBSCRIPTION_ID}}
 
       - name: Log into ACR
-        if: ${{ fromJson(env.SHOULD_PUBLISH) }}
+        if: ${{ needs.decide.outputs.should_publish == 'true' }}
         run: |
           az acr login --name $LOGIN_SERVER
 
       - name: Push image to ACR
-        if: ${{ fromJson(env.SHOULD_PUBLISH) }}
+        if: ${{ needs.decide.outputs.should_publish == 'true' }}
         run: |
           docker push $LOGIN_SERVER/$IMAGE_NAME --all-tags
