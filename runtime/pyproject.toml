@@ -18,6 +18,7 @@ dependencies = [
     "torchaudio",
     "torchcodec",
     "tqdm",
+    "vllm",
 ]
 
 
@@ -31,6 +32,7 @@ required-version = ">=0.9.24"
 environments = [
   "sys_platform == 'linux'"
 ]
+no-build-package = ["vllm"]
 
 # Override constraints to allow qwen-asr without breaking existing packages
 override-dependencies = [

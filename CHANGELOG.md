@@ -1,13 +1,5 @@
 # Changelog
 
-
-## 2026-02-23
-
-- vLLM is no longer supported in the competition runtime
-    - `vLLM` is incompatible with the runtime CUDA (12.6) / PyTorch (2.9.0) stack and cannot be reliably supported
-    - Removed `vLLM` from `pyproject.toml`
-    - Regenerated `uv.lock`
-
 ## 2026-02-09
 
 - Add qwen-asr package for Qwen3-ASR model support [#1](https://github.com/drivendataorg/childrens-speech-recognition-runtime/pull/1)
