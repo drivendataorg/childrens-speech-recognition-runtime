@@ -3,10 +3,7 @@
 
 ## 2026-02-23
 
-- vLLM is no longer supported in the competition runtime
-    - `vLLM` is incompatible with the runtime CUDA (12.6) / PyTorch (2.9.0) stack and cannot be reliably supported
-    - Removed `vLLM` from `pyproject.toml`
-    - Regenerated `uv.lock`
+- Removed vLLM dependency from the competition runtime. vLLM is incompatible with the runtime CUDA (12.6) / PyTorch (2.9.0) stack and cannot be reliably supported.
 
 ## 2026-02-09
 
