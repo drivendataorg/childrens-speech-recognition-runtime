@@ -18,6 +18,10 @@ dependencies = [
     "torchaudio",
     "torchcodec",
     "tqdm",
+
+    "pyctcdecode==0.5.0",
+    "flashlight-text==0.0.4",
+    "kenlm @ https://github.com/kpu/kenlm/archive/master.zip",
 ]
 
 

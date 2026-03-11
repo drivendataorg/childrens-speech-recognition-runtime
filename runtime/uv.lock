@@ -548,6 +548,16 @@ wheels = [
 ]
 
 [[package]]
+name = "flashlight-text"
+version = "0.0.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/55/62/beb760da6e14c567aafdaab1ef37cec542de154a2d20b7b6da78f49714f6/flashlight-text-0.0.4.tar.gz", hash = "sha256:ef72f0e85b2cc021bfd6ecdbff9575d0a58a7e0cc34e7933d66d0ac269f3266b", size = 59751, upload-time = "2023-06-07T22:38:16.718Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/29/00e1e5c3ff500ea4f9e3c7f7006d61d5f00015a361b57f8fbabbcd18f3cc/flashlight_text-0.0.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:cf5a207b9e6fba8b85b97740501dbf43def7aed179a183d6d81404caa0e0af7a", size = 1304934, upload-time = "2023-06-07T22:37:20.773Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/63/84c5c4d21239f6993342bd4fa02c287a2a525af6792a70cd1f0c9998b9b2/flashlight_text-0.0.4-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:2e7a5e14e8dacfec45a3499597a385dbf36fa1405aed71fcdbe8d82fa5261185", size = 1682903, upload-time = "2023-06-07T22:37:22.94Z" },
+]
+
+[[package]]
 name = "flask"
 version = "3.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -811,6 +821,18 @@ wheels = [
 ]
 
 [[package]]
+name = "hypothesis"
+version = "6.151.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sortedcontainers", marker = "sys_platform == 'linux'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/19/e1/ef365ff480903b929d28e057f57b76cae51a30375943e33374ec9a165d9c/hypothesis-6.151.9.tar.gz", hash = "sha256:2f284428dda6c3c48c580de0e18470ff9c7f5ef628a647ee8002f38c3f9097ca", size = 463534, upload-time = "2026-02-16T22:59:23.09Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c4/f7/5cc291d701094754a1d327b44d80a44971e13962881d9a400235726171da/hypothesis-6.151.9-py3-none-any.whl", hash = "sha256:7b7220585c67759b1b1ef839b1e6e9e3d82ed468cfc1ece43c67184848d7edd9", size = 529307, upload-time = "2026-02-16T22:59:20.443Z" },
+]
+
+[[package]]
 name = "idna"
 version = "3.11"
 source = { registry = "https://pypi.org/simple" }
@@ -994,6 +1016,12 @@ dependencies = [
     { name = "numpy", marker = "sys_platform == 'linux'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/80/45/e3e542ffa8970ebd782fcece35e2295de9c60e8c396c2c1a403410d1b24e/kaldi-python-io-1.2.2.tar.gz", hash = "sha256:4ebb4029c6c58296cc0abf96edff02832ba341d290ed37624a8d00105f0f7c00", size = 8814, upload-time = "2021-03-18T12:02:05.832Z" }
+
+[[package]]
+name = "kenlm"
+version = "0.2.0"
+source = { url = "https://github.com/kpu/kenlm/archive/master.zip" }
+sdist = { hash = "sha256:f935c2ac0be6dd1bf96a5852973dad6103c48e866cf33532459fb1336bea4bfe" }
 
 [[package]]
 name = "kiwisolver"
@@ -2040,6 +2068,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pyctcdecode"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hypothesis", marker = "sys_platform == 'linux'" },
+    { name = "numpy", marker = "sys_platform == 'linux'" },
+    { name = "pygtrie", marker = "sys_platform == 'linux'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/61/96/7dec2cb5414c388b94044f25d701ed9d08e30ba2509a4e2cf6451cdd25ed/pyctcdecode-0.5.0.tar.gz", hash = "sha256:f3bcb313e43ca16a54938b3e77b0b375328653bba932668243db745fde513a2c", size = 68451, upload-time = "2023-01-20T21:11:00.944Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a5/8a/93e2118411ae5e861d4f4ce65578c62e85d0f1d9cb389bd63bd57130604e/pyctcdecode-0.5.0-py2.py3-none-any.whl", hash = "sha256:5b4282872ddc8e30fe7ac45112f4ab6134ac67fc03df0bbecf48667d032a0914", size = 39166, upload-time = "2023-01-20T21:10:58.808Z" },
+]
+
+[[package]]
 name = "pydantic"
 version = "1.10.13"
 source = { registry = "https://pypi.org/simple" }
@@ -2071,6 +2113,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz", hash = "sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887", size = 4968631, upload-time = "2025-06-21T13:39:12.283Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl", hash = "sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b", size = 1225217, upload-time = "2025-06-21T13:39:07.939Z" },
+]
+
+[[package]]
+name = "pygtrie"
+version = "2.5.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b9/13/55deec25bf09383216fa7f1dfcdbfca40a04aa00b6d15a5cbf25af8fce5f/pygtrie-2.5.0.tar.gz", hash = "sha256:203514ad826eb403dab1d2e2ddd034e0d1534bbe4dbe0213bb0593f66beba4e2", size = 39266, upload-time = "2022-07-16T14:29:47.459Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ec/cd/bd196b2cf014afb1009de8b0f05ecd54011d881944e62763f3c1b1e8ef37/pygtrie-2.5.0-py3-none-any.whl", hash = "sha256:8795cda8105493d5ae159a5bef313ff13156c5d4d72feddefacaad59f8c8ce16", size = 25099, upload-time = "2022-09-23T20:30:05.12Z" },
 ]
 
 [[package]]
@@ -2341,10 +2392,13 @@ source = { virtual = "." }
 dependencies = [
     { name = "cuda-python", marker = "sys_platform == 'linux'" },
     { name = "english-to-ipa", marker = "sys_platform == 'linux'" },
+    { name = "flashlight-text", marker = "sys_platform == 'linux'" },
+    { name = "kenlm", marker = "sys_platform == 'linux'" },
     { name = "librosa", marker = "sys_platform == 'linux'" },
     { name = "loguru", marker = "sys_platform == 'linux'" },
     { name = "nemo-toolkit", extra = ["asr"], marker = "sys_platform == 'linux'" },
     { name = "peft", marker = "sys_platform == 'linux'" },
+    { name = "pyctcdecode", marker = "sys_platform == 'linux'" },
     { name = "qwen-asr", marker = "sys_platform == 'linux'" },
     { name = "sacrebleu", marker = "sys_platform == 'linux'" },
     { name = "soundfile", marker = "sys_platform == 'linux'" },
@@ -2365,10 +2419,13 @@ test = [
 requires-dist = [
     { name = "cuda-python", specifier = ">=12.6,<12.7" },
     { name = "english-to-ipa", git = "https://github.com/mphilli/English-to-IPA" },
+    { name = "flashlight-text", specifier = "==0.0.4" },
+    { name = "kenlm", url = "https://github.com/kpu/kenlm/archive/master.zip" },
     { name = "librosa" },
     { name = "loguru" },
     { name = "nemo-toolkit", extras = ["asr"], specifier = ">=2.5.0" },
     { name = "peft" },
+    { name = "pyctcdecode", specifier = "==0.5.0" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "qwen-asr" },
     { name = "sacrebleu" },
