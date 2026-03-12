@@ -1,9 +1,12 @@
 # Changelog
 
+## 2026-03-12
+
+- Add `flashlight-text`, `kenlm`, and `pyctcdecode` to the runtime to support language model–based CTC decoding.
 
 ## 2026-02-23
 
-- Removed vLLM dependency from the competition runtime. vLLM is incompatible with the runtime CUDA (12.6) / PyTorch (2.9.0) stack and cannot be reliably supported.
+- Remove vLLM dependency from the competition runtime. vLLM is incompatible with the runtime CUDA (12.6) / PyTorch (2.9.0) stack and cannot be reliably supported.
 
 ## 2026-02-09
 
