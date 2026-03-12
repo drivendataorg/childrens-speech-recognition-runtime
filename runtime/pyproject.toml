@@ -6,10 +6,13 @@ requires-python = "~=3.11.13"
 dependencies = [
     "cuda-python>=12.6,<12.7",
     "english-to-ipa @ git+https://github.com/mphilli/English-to-IPA",
+    "flashlight-text==0.0.4",
+    "kenlm @ https://github.com/kpu/kenlm/archive/master.zip",
     "librosa",
     "loguru",
     "nemo_toolkit[asr]>=2.5.0",
     "peft",
+    "pyctcdecode==0.5.0",
     "qwen-asr",
     "sacrebleu", # Needed for NeMo SpeechLM2
     "soundfile",
@@ -18,10 +21,6 @@ dependencies = [
     "torchaudio",
     "torchcodec",
     "tqdm",
-
-    "pyctcdecode==0.5.0",
-    "flashlight-text==0.0.4",
-    "kenlm @ https://github.com/kpu/kenlm/archive/master.zip",
 ]
 
 
