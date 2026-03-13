@@ -7,6 +7,7 @@ dependencies = [
     "cuda-python>=12.6,<12.7",
     "english-to-ipa @ git+https://github.com/mphilli/English-to-IPA",
     "flashlight-text==0.0.4",
+    "fairseq2",
     "kenlm @ https://github.com/kpu/kenlm/archive/master.zip",
     "librosa",
     "loguru",
