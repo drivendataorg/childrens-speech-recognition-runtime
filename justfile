@@ -181,6 +181,7 @@ test-build:
 test-run:
     docker run \
         --rm \
+        --gpus all \
         {{NETWORK_ARGS}} \
         "{{LOCAL_TEST_IMAGE_REF}}"
 
@@ -189,6 +190,7 @@ test-run:
 test-interact:
     docker run -it \
         --rm \
+        --gpus all \
         {{NETWORK_ARGS}} \
         "{{LOCAL_TEST_IMAGE_REF}}" \
         bash
