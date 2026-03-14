@@ -46,3 +46,44 @@ def test_qwen3_asr():
     from qwen_asr.core.transformers_backend.configuration_qwen3_asr import Qwen3ASRConfig
     from qwen_asr.core.transformers_backend.modeling_qwen3_asr import Qwen3ASRForConditionalGeneration
     from qwen_asr.core.transformers_backend.processing_qwen3_asr import Qwen3ASRProcessor
+
+
+def test_qwen3_asr_vllm_inference():
+    """End-to-end inference test using qwen-asr with the vLLM backend on a demo audio file."""
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    # vLLM requires spawning; run inference in a subprocess to avoid fork issues
+    repo_root = Path(__file__).resolve().parents[2]
+    audio_path = repo_root / "data-demo" / "word" / "audio" / "U_a61a29f276533ee2.flac"
+    assert audio_path.exists(), f"Demo audio not found: {audio_path}"
+
+    script = f"""
+import torch
+from qwen_asr import Qwen3ASRModel
+
+if __name__ == "__main__":
+    model = Qwen3ASRModel.LLM(
+        model="Qwen/Qwen3-ASR-0.6B",
+        gpu_memory_utilization=0.8,
+        max_inference_batch_size=1,
+        max_new_tokens=256,
+    )
+    results = model.transcribe(audio="{audio_path}", language="English")
+    text = results[0].text
+    assert isinstance(text, str) and len(text.strip()) > 0, f"Empty transcription: {{text!r}}"
+    print("TRANSCRIPTION_OK:" + text)
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    assert result.returncode == 0, (
+        f"vLLM inference subprocess failed (rc={result.returncode}):\n"
+        f"STDOUT:\n{result.stdout[-2000:]}\n"
+        f"STDERR:\n{result.stderr[-2000:]}"
+    )
+    assert "TRANSCRIPTION_OK:" in result.stdout, f"No transcription output:\n{result.stdout[-1000:]}"

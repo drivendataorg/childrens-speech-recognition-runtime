@@ -8,9 +8,10 @@
 
 - Re-added vLLM support to the competition runtime [#5](https://github.com/drivendataorg/childrens-speech-recognition-runtime/pull/5)
     - Added `vllm` (v0.14.0) and enabled `qwen-asr[vllm]` extra for Qwen3-ASR vLLM backend
-    - Relaxed `cuda-python` constraint from `>=12.6,<12.7` to `>=12.6`; vLLM 0.14.0 is compatible with CUDA 12.6 at runtime despite flashinfer's resolver constraint
-    - Added `override-dependencies` for `protobuf>=6.30.0` (required by vLLM, overrides NeMo's `<5.30` pin) and `cuda-python>=12.6` (overrides nvidia-cutlass-dsl's `>=12.8` resolver pin)
+    - Relaxed `cuda-python` override to `>=12.6`; vLLM 0.14.0 is compatible with CUDA 12.6 at runtime despite flashinfer's upstream pin
+    - Added `override-dependencies` for `protobuf>=5.29.5,<5.30` (keep nemo/wandb compatible) 
     - Limited `tool.uv.environments` to `x86_64` only (vLLM has no aarch64 wheels)
+    - Added `test_qwen3_asr_vllm_inference` end-to-end test using qwen-asr vLLM backend on a demo audio file
 
 ## 2026-02-23
 
