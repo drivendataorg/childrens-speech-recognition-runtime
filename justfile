@@ -21,6 +21,7 @@ MOUNT_DATA := f"--mount type=bind,source={{DATA_DIR}},target=/code_execution/dat
 MOUNT_SUBMISSION := f"--mount type=bind,source={{WORKING_DIR}}/submission/,target=/code_execution/submission"
 ENV_VARS := f"-e KIDSASR_TRACK={{track}}"
 NETWORK_ARGS := if block_internet == "true" { "--network none" } else { "" }
+GPU_ARGS := `if nvidia-smi > /dev/null 2>&1; then echo "--gpus all"; else echo ""; fi`
 
 # Print this help documentation
 help:
@@ -181,7 +182,7 @@ test-build:
 test-run:
     docker run \
         --rm \
-        --gpus all \
+        {{GPU_ARGS}} \
         {{NETWORK_ARGS}} \
         "{{LOCAL_TEST_IMAGE_REF}}"
 
@@ -190,7 +191,7 @@ test-run:
 test-interact:
     docker run -it \
         --rm \
-        --gpus all \
+        {{GPU_ARGS}} \
         {{NETWORK_ARGS}} \
         "{{LOCAL_TEST_IMAGE_REF}}" \
         bash
