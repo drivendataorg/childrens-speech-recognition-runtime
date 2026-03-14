@@ -81,6 +81,4 @@ RUN uv run python3 -c "from huggingface_hub import snapshot_download; snapshot_d
 ## TEST-RUNTIME
 FROM test-base AS test-runtime
 ENV UV_NO_SYNC=1
-# Use cached model weights only; do not attempt network requests
-ENV HF_HUB_OFFLINE=1
-CMD ["uv", "run", "pytest", "tests"]
+CMD ["bash", "-c", "HF_HUB_OFFLINE=1 uv run pytest tests"]
