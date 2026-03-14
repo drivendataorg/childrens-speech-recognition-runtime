@@ -53,11 +53,7 @@ def test_qwen3_asr_vllm_inference():
     from pathlib import Path
 
     import numpy as np
-    import pytest
     import torch
-
-    if not torch.cuda.is_available():
-        pytest.skip("No GPU available; vLLM requires CUDA")
 
     from qwen_asr import Qwen3ASRModel
 
