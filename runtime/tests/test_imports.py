@@ -50,19 +50,18 @@ def test_qwen3_asr():
 
 def test_qwen3_asr_vllm_inference():
     """End-to-end inference test using qwen-asr with the vLLM backend."""
-    import subprocess
-    import sys
     from pathlib import Path
 
+    import numpy as np
     import pytest
     import torch
 
     if not torch.cuda.is_available():
         pytest.skip("No GPU available; vLLM requires CUDA")
 
-    # Build the audio input for the subprocess script.  Prefer a real file from
-    # data-demo when available; otherwise generate a random 1-second array so
-    # the test never needs to be skipped for a missing file.
+    from qwen_asr import Qwen3ASRModel
+
+    # Prefer a real audio file when available; fall back to random noise.
     audio_rel = Path("data-demo") / "word" / "audio" / "U_a61a29f276533ee2.flac"
     candidates = [
         Path(__file__).resolve().parents[2] / audio_rel,   # local checkout
@@ -72,38 +71,16 @@ def test_qwen3_asr_vllm_inference():
     audio_path = next((p for p in candidates if p.exists()), None)
 
     if audio_path is not None:
-        audio_expr = f'"{audio_path}"'
+        audio = str(audio_path)
     else:
-        # Generate a random 1-second mono audio array at 16 kHz
-        audio_expr = "(numpy.random.randn(16000).astype(numpy.float32), 16000)"
+        audio = (np.random.randn(16000).astype(np.float32), 16000)
 
-    script = f"""
-import numpy
-import torch
-from qwen_asr import Qwen3ASRModel
-
-if __name__ == "__main__":
     model = Qwen3ASRModel.LLM(
         model="Qwen/Qwen3-ASR-0.6B",
         gpu_memory_utilization=0.8,
         max_inference_batch_size=1,
         max_new_tokens=256,
     )
-    audio = {audio_expr}
     results = model.transcribe(audio=audio, language="English")
     text = results[0].text
-    assert isinstance(text, str), f"Unexpected type: {{type(text)}}"
-    print("TRANSCRIPTION_OK:" + text)
-"""
-    result = subprocess.run(
-        [sys.executable, "-c", script],
-        capture_output=True,
-        text=True,
-        timeout=300,
-    )
-    assert result.returncode == 0, (
-        f"vLLM inference subprocess failed (rc={result.returncode}):\n"
-        f"STDOUT:\n{result.stdout[-2000:]}\n"
-        f"STDERR:\n{result.stderr[-2000:]}"
-    )
-    assert "TRANSCRIPTION_OK:" in result.stdout, f"No transcription output:\n{result.stdout[-1000:]}"
+    assert isinstance(text, str), f"Unexpected type: {type(text)}"
