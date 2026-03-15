@@ -1,5 +1,5 @@
 ## BASE IMAGE
-FROM nvidia/cuda:12.6.0-runtime-ubuntu22.04 AS base
+FROM nvidia/cuda:12.6.0-devel-ubuntu22.04 AS base
 COPY --from=ghcr.io/astral-sh/uv:0.9.24 /uv /uvx /bin/
 
 ENV DEBIAN_FRONTEND=noninteractive \
