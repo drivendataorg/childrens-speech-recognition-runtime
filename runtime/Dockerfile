@@ -1,5 +1,5 @@
 ## BASE IMAGE
-FROM nvidia/cuda:12.6.0-devel-ubuntu22.04 AS base
+FROM nvidia/cuda:12.6.0-runtime-ubuntu22.04 AS base
 COPY --from=ghcr.io/astral-sh/uv:0.9.24 /uv /uvx /bin/
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -81,7 +81,5 @@ RUN uv run python3 -c "from huggingface_hub import snapshot_download; snapshot_d
 ## TEST-RUNTIME
 FROM test-base AS test-runtime
 ENV UV_NO_SYNC=1
-ENV CUDA_HOME=/usr/local/cuda
-ENV PATH="${CUDA_HOME}/bin:${PATH}"
-ENV LD_LIBRARY_PATH="${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}"
+ENV VLLM_ATTENTION_BACKEND=TRITON_ATTN
 CMD ["bash", "-c", "HF_HUB_OFFLINE=1 uv run pytest tests"]
