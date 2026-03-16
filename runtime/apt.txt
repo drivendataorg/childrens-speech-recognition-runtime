@@ -9,3 +9,5 @@ libxml2
 tzdata
 wget
 zip
+unzip
+praat
