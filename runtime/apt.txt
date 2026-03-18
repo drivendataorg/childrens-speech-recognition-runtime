@@ -6,8 +6,8 @@ g++
 gcc
 git
 libxml2
+praat
 tzdata
 wget
-zip
 unzip
-praat
+zip
