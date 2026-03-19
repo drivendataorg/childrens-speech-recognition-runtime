@@ -56,7 +56,30 @@ ENV UV_NO_DEV=1 \
 ENV UV_CACHE_DIR=/home/runtimeuser/.cache/uv
 ENV UV_PYTHON_CACHE_DIR=/home/runtimeuser/.cache/uv/python
 RUN --mount=type=cache,id=uv-cache,target=/home/runtimeuser/.cache/uv,uid=1000,gid=1000 \
-    uv sync
+    uv sync \
+    && uv run python - <<'PY'
+import importlib.metadata
+import importlib.util
+
+expected_versions = {
+    'cuda-python': '12.6.2.post1',
+    'numba': '0.61.2',
+}
+for dist_name, expected in expected_versions.items():
+    actual = importlib.metadata.version(dist_name)
+    assert actual == expected, f'{dist_name} version mismatch: expected {expected}, got {actual}'
+
+for mod_name in ['cuda', 'cuda.cuda', 'numba']:
+    spec = importlib.util.find_spec(mod_name)
+    assert spec is not None, f'missing module spec: {mod_name}'
+
+from cuda import cuda as cuda_binding  # noqa: F401
+import numba  # noqa: F401
+
+print('Validated CUDA Python runtime layout:', flush=True)
+print(f'  cuda-python={importlib.metadata.version("cuda-python")}', flush=True)
+print(f'  numba={importlib.metadata.version("numba")}', flush=True)
+PY
 
 # Copy entrypoint and tests
 COPY --chown=${RUNTIME_USER}:${RUNTIME_USER} \
