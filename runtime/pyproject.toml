@@ -10,7 +10,6 @@ dependencies = [
     "kenlm @ https://github.com/kpu/kenlm/archive/master.zip",
     "librosa",
     "loguru",
-    "nemo_toolkit[asr]>=2.5.0",
     "peft",
     "pyctcdecode==0.5.0",
     "qwen-asr[vllm]",
