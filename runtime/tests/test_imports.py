@@ -74,6 +74,7 @@ def test_qwen3_asr_vllm_inference():
     model = Qwen3ASRModel.LLM(
         model="Qwen/Qwen3-ASR-0.6B",
         gpu_memory_utilization=0.8,
+        max_model_len=8192,
         max_inference_batch_size=1,
         max_new_tokens=256,
     )
