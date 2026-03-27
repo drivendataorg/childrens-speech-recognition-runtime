@@ -81,3 +81,10 @@ def test_qwen3_asr_vllm_inference():
     results = model.transcribe(audio=audio, language="English")
     text = results[0].text
     assert isinstance(text, str), f"Unexpected type: {type(text)}"
+
+
+def test_tensorflow():
+    import tensorflow as tf
+    import keras
+    
+    assert tf.test.is_built_with_gpu_support()
